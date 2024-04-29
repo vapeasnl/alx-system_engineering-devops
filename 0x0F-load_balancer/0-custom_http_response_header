@@ -1,7 +1,32 @@
 #!/usr/bin/env bash
 # Create a script to configure nginx on a new server
-sudo apt-get update
-sudo apt-get install -y nginx
-sudo sed -i '11i\add_header X-Served-By $HOSTNAME;' /etc/nginx/nginx.conf
+sudo apt-get update -y 
+sudo apt-get install -y nginx 
+sudo ufw allow 'Nginx HTTP'
+
+
+
+echo "Hello World!" > /var/www/html/index.html
+echo "Ceci n'est pas une page" > /var/www/html/error_404.html
+
+server_config=\
+"server {
+  listen 80 default_server;
+  listen [::]:80 default_server;
+  root /var/www/html;
+  index index.html index.htm index.nginx-debian.html
+  server_name_;
+  add_header X-Served-By \$hostname;
+  location / {
+   try_files \$uri \$uri/ =404;
+  }
+  error_page 404 /error_404.html;
+  location = /error_404.html {
+   internal;
+  }
+}"
+
+echo "$server_config" | sudo dd status=none of=/etc/nginx/sites-enabled/default
 sudo service nginx start
+sudo service nginx restart
 
