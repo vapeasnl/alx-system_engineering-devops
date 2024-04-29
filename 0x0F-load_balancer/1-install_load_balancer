@@ -1,4 +1,3 @@
-
 #!/usr/bin/env bash
 #sets up load balancers
 sudo apt install -y haproxy=1.5\*
