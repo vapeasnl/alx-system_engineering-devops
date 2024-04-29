@@ -1,0 +1,27 @@
+Hit:1 http://security.ubuntu.com/ubuntu focal-security InRelease
+Hit:2 http://ppa.launchpad.net/brightbox/ruby-ng/ubuntu focal InRelease
+Ign:3 http://ppa.launchpad.net/vbernat/haproxy-1.8/ubuntu focal InRelease
+Hit:4 http://archive.ubuntu.com/ubuntu focal InRelease
+Get:5 http://archive.ubuntu.com/ubuntu focal-updates InRelease [114 kB]
+Hit:6 https://deb.nodesource.com/node_14.x focal InRelease
+Err:7 http://ppa.launchpad.net/vbernat/haproxy-1.8/ubuntu focal Release
+  404  Not Found [IP: 185.125.190.80 80]
+Hit:8 http://archive.ubuntu.com/ubuntu focal-backports InRelease
+Reading package lists...
+E: The repository 'http://ppa.launchpad.net/vbernat/haproxy-1.8/ubuntu focal Release' does not have a Release file.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+curl is already the newest version (7.68.0-1ubuntu2.22).
+The following packages were automatically installed and are no longer required:
+  augeas-lenses debconf-utils facter hiera libaugeas0
+  libboost-filesystem1.71.0 libboost-locale1.71.0 libboost-log1.71.0
+  libboost-program-options1.71.0 libboost-regex1.71.0 libboost-thread1.71.0
+  libcpp-hocon0.1.7 libfacter3.11.0 libleatherman1.4.2 libyaml-cpp0.6
+  ruby-deep-merge ruby-sync
+Use 'apt autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
+rm: cannot remove '/etc/nginx/sites-enabled/*~': No such file or directory
+sed: can't read /etc/nginx/sites-enabled/default: No such file or directory
+ * Restarting nginx nginx
+   ...fail!
