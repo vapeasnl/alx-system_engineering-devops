@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# fixed
-sed -i "s/8080 default_server/80 default_server/" /etc/nginx/sites-enabled/default
-service nginx restart
-pkill -o nginx
+# nginx port
+sed -i 's/8080/80/g' /etc/nginx/sites-enabled/default
+sudo service nginx restart
+kill -9 "$(cat /var/run/nginx.pid)"
 
