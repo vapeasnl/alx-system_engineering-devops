@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-    Task api 0
+    0. Gather data from an API
 """
 import requests
 from sys import argv

@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-    Task api 3
+    3. Dictionary of list of dictionaries
 """
 
 import json
