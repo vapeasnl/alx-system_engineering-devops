@@ -3,30 +3,23 @@
 
 import json
 import requests
-import sys
 
-if __name__ == "__main__":
-    jsonplaceholder = 'https://jsonplaceholder.typicode.com/users'
-    response = requests.get(jsonplaceholder)
-    employees = response.json()
-    print(employees)
-    
-    data_dict = {}
 
-    for employee in employees:
-        USER_ID = employee.get('id')
-        username = employee.get('username')
-        url = 'https://jsonplaceholder.typicode.com/users/{}/todos'.format(USER_ID)
-        response = requests.get(url)
-        tasks = response.json()
-        data_dict[USER_ID] = []
-        for task in tasks:
-            data_dict[USER_ID].append({
-                "username": username,
-                "task": task.get("title"),
-                "completed": task.get("completed"),
-            })
+if __name__ == '__main__':
+    rusr = requests.get('https://jsonplaceholder.typicode.com/users')
+    jusr = rusr.json()
+    retd = dict()
+    for usr in jusr:
+        ul = []
+        uid = usr.get('id')
+        uname = usr.get('username')
+        rtodo = requests.get('https://jsonplaceholder.typi' +
+                             'code.com/users/{}/todos'.format(uid))
+        for do in rtodo.json():
+            ul.append({"username": uname, "task": do.get('title'), "completed":
+                      do.get('completed')})
+        retd.update({uid: ul})
 
-    # Write the tasks data to a JSON file
-    with open('todo_all_employees.json', 'w') as f:
-        json.dump(data_dict, f)
+    fname = "todo_all_employees.json"
+    with open(fname, mode='w') as user_file:
+        json.dump(retd, user_file, sort_keys=True)

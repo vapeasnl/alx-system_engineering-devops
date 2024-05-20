@@ -3,24 +3,27 @@
 
 import json
 import requests
-import sys
+from sys import argv
 
+if __name__ == '__main__':
+    rusr = requests.get('https://jsonplaceholder.typicode.com/users/{}'
+                        .format(argv[1]))
+    rtodo = requests.get('https://jsonplaceholder.typicode.com/users/{}/todos'
+                         .format(argv[1]))
+    jusr = rusr.json()
+    jtodo = rtodo.json()
 
-if __name__ == "__main__":
-    USER_ID = sys.argv[1]
-    jsonplaceholder = 'https://jsonplaceholder.typicode.com/users'
-    url = jsonplaceholder + '/' + USER_ID
-    response = requests.get(url)
-    username = response.json().get('username')
-    todo_url = url + '/todos'
-    response = requests.get(todo_url)
-    tasks = response.json()
-    dict = {USER_ID: []}
-    for task in tasks:
-        dict[USER_ID].append({
-            "task": task.get("title"),
-            "completed": task.get("completed"),
-            "username": username
-        })
-        with open('{}.json'.format(USER_ID), 'w') as f:
-            json.dump(dict, f)
+    done = len(jtodo)
+    notdone = 0
+    uname = jusr.get('username')
+    name = jusr.get('name')
+    fname = argv[1] + ".json"
+
+    retd = dict()
+    retl = []
+    for t in jtodo:
+        retl.append({"task": t.get('title'), "completed": t.get('completed'),
+                    "username": uname})
+    retd.update({argv[1]: retl})
+    with open(fname, mode='w') as user_file:
+        json.dump(retd, user_file)

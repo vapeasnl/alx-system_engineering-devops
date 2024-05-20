@@ -1,21 +1,26 @@
 #!/usr/bin/python3
 # Using what i did in the task #0
 
+import csv
 import requests
-import sys
+from sys import argv
 
 
-if __name__ == "__main__":
-    USER_ID = sys.argv[1]
-    jsonplaceholder = 'https://jsonplaceholder.typicode.com/users'
-    url = jsonplaceholder + '/' + USER_ID
-    response = requests.get(url)
-    username = response.json().get('username')
-    todo_url = url + '/todos'
-    response = requests.get(todo_url)
-    tasks = response.json()
-    with open(USER_ID + '.csv', 'w') as f:
-        for task in tasks:
-            f.write('"{}","{}","{}","{}"\n'.format(USER_ID, username,
-                                                task.get('completed'),
-                                                task.get('title')))
+if __name__ == '__main__':
+    rusr = requests.get('https://jsonplaceholder.typicode.com/users/{}'
+                        .format(argv[1]))
+    rtodo = requests.get('https://jsonplaceholder.typicode.com/users/{}/todos'
+                         .format(argv[1]))
+    jusr = rusr.json()
+    jtodo = rtodo.json()
+
+    done = len(jtodo)
+    notdone = 0
+    name = jusr.get('username')
+    fname = argv[1] + ".csv"
+    with open(fname, mode='w') as user_file:
+        user_writer = csv.writer(user_file, delimiter=',', quotechar='"',
+                                 quoting=csv.QUOTE_ALL)
+        for t in jtodo:
+            user_writer.writerow([argv[1], name, t.get('completed'),
+                                 t.get('title')])
