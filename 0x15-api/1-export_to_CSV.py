@@ -7,7 +7,7 @@ import requests
 from sys import argv
 
 if __name__ == '__main__':
-    # Check if the script is provided with an employee ID as a command-line argument
+    # Checking
     if len(argv) != 2:
         print("Usage: ./1-export_to_CSV.py <employee_id>")
         exit(1)
@@ -17,7 +17,8 @@ if __name__ == '__main__':
     rusr = requests.get(
         'https://jsonplaceholder.typicode.com/users/{}'.format(employee_id))
     rtodo = requests.get(
-        'https://jsonplaceholder.typicode.com/users/{}/todos'.format(employee_id))
+        'https://jsonplaceholder.typicode.com/users/{}/todos'
+        .format(employee_id))
 
     jusr = rusr.json()
     jtodo = rtodo.json()
