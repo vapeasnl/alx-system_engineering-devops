@@ -1,39 +1,27 @@
 #!/usr/bin/python3
-# Write a Python script that, using this REST API
-
+"""
+    Task api 0
+"""
 import requests
-import sys
+from sys import argv
 
 
-if __name__ == "__main__":
-    # Check if the script is provided with an employee ID
-    if len(sys.argv) != 2:
-        sys.exit(1)
+if __name__ == '__main__':
+    rusr = requests.get('https://jsonplaceholder.typicode.com/users/{}'
+                        .format(argv[1]))
+    rtodo = requests.get('https://jsonplaceholder.typicode.com/users/{}/todos'
+                         .format(argv[1]))
+    jusr = rusr.json()
+    jtodo = rtodo.json()
 
-    employee_ID = sys.argv[1]
-    jsonplaceholder = 'https://jsonplaceholder.typicode.com/users'
-    url = f'{jsonplaceholder}/{employee_ID}'
+    done = len(jtodo)
+    notdone = 0
+    name = jusr.get('name')
+    for t in jtodo:
+        if t.get('completed') is True:
+            notdone = notdone + 1
 
-    # Make a GET request
-    response = requests.get(url)
-
-    # Check if the request was successful
-    if response.status_code == 200:
-        employee_name = response.json().get('name')
-        Todourl = f'{url}/todos'
-        res = requests.get(Todourl)
-        tasks = res.json()
-
-        # completed tasks
-        done_tasks = [task for task in tasks if task.get('completed')]
-
-        # Display the employee TODO list
-        print("Employee {} is done with tasks({}/{}):".format(
-            employee_name, len(done_tasks), len(tasks)))
-        for task in done_tasks:
-            print("\t{}".format(task.get('title')))
-    else:
-        # Display an error message if the request not successful
-        print("Error: Unable to fetch data. Status code: {}".format(
-            response.status_code
-            ))
+    print("Employee {} is done with tasks({}/{}):".format(name, notdone, done))
+    for t in jtodo:
+        if t.get('completed') is True:
+            print("\t {}".format(t.get('title')))
