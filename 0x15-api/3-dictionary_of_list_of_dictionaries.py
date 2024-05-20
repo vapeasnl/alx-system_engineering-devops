@@ -30,4 +30,3 @@ if __name__ == "__main__":
     # Write the tasks data to a JSON file
     with open('todo_all_employees.json', 'w') as f:
         json.dump(data_dict, f)
-

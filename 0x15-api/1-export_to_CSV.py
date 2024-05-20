@@ -19,4 +19,3 @@ if __name__ == "__main__":
             f.write('"{}","{}","{}","{}"\n'.format(USER_ID, username,
                                                 task.get('completed'),
                                                 task.get('title')))
-
