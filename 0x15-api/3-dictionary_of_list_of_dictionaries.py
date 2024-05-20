@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-# Using what i did in the task #0
+"""
+    Task api 3
+"""
 
 import json
 import requests
