@@ -28,9 +28,12 @@ if __name__ == "__main__":
         done_tasks = [task for task in tasks if task.get('completed')]
 
         # Display the employee TODO list
-print("Employee {} is done with tasks({}/{}):".format(employee_name, len(done_tasks), len(tasks)))
+        print("Employee {} is done with tasks({}/{}):".format(
+            employee_name, len(done_tasks), len(tasks)))
         for task in done_tasks:
             print("\t{}".format(task.get('title')))
     else:
         # Display an error message if the request not successful
-print(f"Error: Unable to fetch data. Status code: {response.status_code}")
+        print("Error: Unable to fetch data. Status code: {}".format(
+            response.status_code
+            ))
