@@ -24,3 +24,4 @@ if __name__ == "__main__":
         })
         with open('{}.json'.format(USER_ID), 'w') as f:
             json.dump(dict, f)
+
