@@ -1,46 +1,59 @@
 #!/usr/bin/python3
-"""a function that queries the Reddit API recursively."""
+""" TASK advanced """
+from requests import get
+
+REDDIT = "https://www.reddit.com/"
+HEADERS = {'user-agent': 'my-app/0.0.1'}
 
 
-import requests
-
-
-def count_words(subreddit, word_list, after='', word_dict={}):
-    """ A function that queries the Reddit API.
+def count_words(subreddit, word_list, after="", word_dic={}):
     """
-
-    if not word_dict:
+    Returns a list containing the titles of all hot articles.
+    """
+    if not word_dic:
         for word in word_list:
-            if word.lower() not in word_dict:
-                word_dict[word.lower()] = 0
+            word_dic[word] = 0
 
     if after is None:
-        wordict = sorted(word_dict.items(), key=lambda x: (-x[1], x[0]))
-        for word in wordict:
-            if word[1]:
-                print('{}: {}'.format(word[0], word[1]))
+        word_list = [[key, value] for key, value in word_dic.items()]
+        word_list = sorted(word_list, key=lambda x: (-x[1], x[0]))
+        for w in word_list:
+            if w[1]:
+                print("{}: {}".format(w[0].lower(), w[1]))
         return None
 
-    url = 'https://www.reddit.com/r/{}/hot/.json'.format(subreddit)
-    header = {'user-agent': 'redquery'}
-    parameters = {'limit': 100, 'after': after}
-    response = requests.get(url, headers=header, params=parameters,
-                            allow_redirects=False)
+    url = REDDIT + "r/{}/hot/.json".format(subreddit)
 
-    if response.status_code != 200:
+    params = {
+        'limit': 100,
+        'after': after
+    }
+
+    r = get(url, headers=HEADERS, params=params, allow_redirects=False)
+
+    if r.status_code != 200:
         return None
 
     try:
-        hot = response.json()['data']['children']
-        aft = response.json()['data']['after']
-        for post in hot:
-            title = post['data']['title']
-            lower = [word.lower() for word in title.split(' ')]
+        js = r.json()
 
-            for word in word_dict.keys():
-                word_dict[word] += lower.count(word)
-
-    except Exception:
+    except ValueError:
         return None
 
-    count_words(subreddit, word_list, aft, word_dict)
+    try:
+
+        data = js.get("data")
+        after = data.get("after")
+        children = data.get("children")
+        for child in children:
+            post = child.get("data")
+            title = post.get("title")
+            lower = [s.lower() for s in title.split(' ')]
+
+            for w in word_list:
+                word_dic[w] += lower.count(w.lower())
+
+    except:
+        return None
+
+    count_words(subreddit, word_list, after, word_dic)
